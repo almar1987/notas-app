@@ -1,24 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import CrearItem from "./componentes/CrearItem";
+import InputArea from "./componentes/InputArea";
 
 function App() {
+
+  const [items, setItems] = useState([]);
+
+  function añadirItem(inputText) {
+    setItems(prevItems => {
+      return [...prevItems, inputText];
+    });
+  }
+
+  function borrarItem(id) {
+    setItems(prevItems => {
+      return prevItems.filter((item, index) => {
+        return index !== id;
+      });
+    });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <section>
+      <div className="container-fluid">
+        
+          <div className="titulo">
+            <h1>Notas.App</h1>
+          </div>
+          <InputArea onAdd={añadirItem} />
+          <div className="items">
+            <ul>
+              {items.map((crearItem, index) => (
+                <CrearItem
+                  key={index}
+                  id={index}
+                  text={crearItem}
+                  onChecked={borrarItem}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+    </section>
   );
 }
 
